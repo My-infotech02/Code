@@ -1,0 +1,244 @@
+
+#TWO SUM
+def two_sum(n,target):
+        list=[]
+        for i,n1 in enumerate(n):
+            c=target-n1
+            if c in list:
+                return [list.index(c),i]
+            else:
+                list.append(n1)
+        return list
+n = [2, 7, 11, 15]
+target = 9
+result = two_sum(n, target)
+print(result)
+
+
+#Best time to buy and sell the stock
+class Solution:
+   
+    def maxProfit(self, prices: List[int]) -> int:
+        i = 0 
+        j = 1
+        max_sum = 0
+        while j < len(prices):                                               #time complexity =O(n)
+            if prices[i] >= prices[j] :
+                i = j
+                                
+            else:
+                val = prices[j] - prices[i]
+                max_sum = max(max_sum,val)
+            j += 1
+        return max_sum
+
+#container with most water
+
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        left = 0
+        right = len(height) - 1
+        maxArea = 0
+
+        while left < right:
+            currentArea = min(height[left], height[right]) * (right - left)
+            maxArea = max(maxArea, currentArea)                                       #time complexity = O(n)
+
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
+
+        return maxArea
+
+#product of array except itself
+
+def prod(arr,n):
+  if n==1:
+     print(0)
+     return
+  left=[0]*n
+  right=[0]*n
+  prod1=[0]*n
+
+  left[0]=1
+  right[n-1]=1
+
+  for i in range(1, n): 
+        left[i] = arr[i - 1] * left[i - 1] 
+  
+    # Construct the right array 
+    for j in range(n-2, -1, -1): 
+        right[j] = arr[j + 1] * right[j + 1] 
+  
+    # Construct the product array using 
+    # left[] and right[] 
+    for i in range(n): 
+        prod[i] = left[i] * right[i] 
+                                                            Time complexity=O(n)
+    # print the constructed prod array 
+    for i in range(n): 
+        print(prod[i], end=' ') 
+  
+  
+# Driver code 
+arr = [10, 3, 5, 6, 2] 
+n = len(arr) 
+print("The product array is:")
+productArray(arr, n) 
+
+#Climbing stairs
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n == 0 or n == 1:
+            return 1
+        prev, curr = 1, 1
+        for i in range(2, n+1):       time complexity=O(n)
+            temp = curr
+            curr = prev + curr
+            prev = temp
+        return curr
+
+## coin change problem
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [0] + ([float('inf')] * amount)
+        for i in range(1, amount + 1):
+            for coin in coins:
+                if coin <= i:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)                   time complexity:O(coins*amount)
+
+        if dp[-1] == float('inf'):
+            return -1
+        return dp[-1]
+
+#number of islands
+def Solution(self,row,col,graph):	
+    self.ROW = row
+		self.COL = col
+		self.graph = graph
+
+	# A utility function to do DFS for a 2D
+	# boolean matrix. It only considers
+	# the 8 neighbours as adjacent vertices
+	def DFS(self, i, j):
+		if i < 0 or i >= len(self.graph) or j < 0 or j >= len(self.graph[0]) or self.graph[i][j] != 1:
+			return
+
+		# mark it as visited
+		self.graph[i][j] = -1
+
+		# Recur for 8 neighbours
+		self.DFS(i - 1, j - 1)
+		self.DFS(i - 1, j)
+		self.DFS(i - 1, j + 1)
+		self.DFS(i, j - 1)
+		self.DFS(i, j + 1)
+		self.DFS(i + 1, j - 1)
+		self.DFS(i + 1, j)
+		self.DFS(i + 1, j + 1)
+
+	# The main function that returns
+	# count of islands in a given boolean
+	# 2D matrix
+	def countIslands(self):
+		# Initialize count as 0 and traverse
+		# through the all cells of
+		# given matrix
+		count = 0
+		for i in range(self.ROW):
+			for j in range(self.COL):
+				# If a cell with value 1 is not visited yet,
+				# then new island found
+				if self.graph[i][j] == 1:
+					# Visit all cells in this island
+					# and increment island count
+					self.DFS(i, j)
+					count += 1
+
+		return count
+
+
+        graph = [
+                	[1, 1, 0, 0, 0],
+	                [0, 1, 0, 0, 1],
+	                [1, 0, 0, 1, 1],
+	                [0, 0, 0, 0, 0],
+	                [1, 0, 1, 0, 1]
+                ]                                            Time complexity: O(ROW x COL), where ROW is the number of rows and COL is the number of columns in the given matrix.
+
+
+        row = len(graph)
+        col = len(graph[0])
+
+        g = Solution(row, col, graph)
+
+        print("Number of islands is:", g.countIslands())
+
+# This code is contributed by Shivam Shrey
+
+#alatantic and pacific ocean
+
+Steps = [	 
+		[-1,0], # Up 
+		[0,1], # Right 
+		[1,0], # bottom 
+		[0,-1] # Left 
+	] 
+
+def withinLimits(row_num, col_num, total_rows, total_cols): 
+	if 0 <= row_num < total_rows and 0 <= col_num < total_cols: 
+		return True
+	return False
+
+
+def waterSlope(oceanMatrix, matrix, row, col): 
+	nrows, ncols = len(matrix), len(matrix[0]) 
+	for i in Steps: 
+		if withinLimits(row+i[0], col+i[1], nrows, ncols): 
+			if matrix[row+i[0]][col+i[1]] >= matrix[row][col] and not oceanMatrix[row+i[0]][col+i[1]]: 
+				oceanMatrix[row+i[0]][col+i[1]] = True
+				waterSlope(oceanMatrix, matrix, row+i[0], col+i[1]) 
+
+def commonWaterFlow(matrix): 
+	matrix_rows = len(matrix) 
+	matrix_cols = len(matrix[0]) 
+	pacificMatrix = [[False for _ in range(matrix_cols)] for _ in range(matrix_rows)] 
+	atlanticMatrix = [[False for _ in range(matrix_cols)] for _ in range(matrix_rows)] 
+	
+	pacificMatrix[0][1] = True
+	pacificMatrix[0][2] = True
+	
+	for i in range(matrix_cols): 
+		pacificMatrix[0][i] = True
+		atlanticMatrix[(matrix_rows-1)][i] = True
+	
+	for i in range(matrix_rows): 
+		pacificMatrix[i][0] = True
+		atlanticMatrix[i][(matrix_cols-1)] = True
+	
+	for i in range(matrix_cols): 
+		waterSlope(pacificMatrix, matrix, 0, i) 
+		waterSlope(atlanticMatrix, matrix, matrix_rows-1, i) 
+	
+	for i in range(matrix_rows): 
+		waterSlope(pacificMatrix, matrix, i, 0) 
+		waterSlope(atlanticMatrix, matrix, i, matrix_cols-1) 
+	
+	Count = 0
+	
+	for i in range(matrix_rows): 
+		for j in range(matrix_cols): 
+			if pacificMatrix[i][j] and atlanticMatrix[i][j]: 
+				Count += 1
+	
+	return Count 
+
+mat = [ [ 1, 2, 2, 3, 5 ], # T-T-T-T-T	 F-F-F-F-T 
+		[ 3, 2, 3, 4, 4 ], # T-T-T-T-T	 F-F-F-T-T 
+		[ 2, 4, 5, 3, 1 ], # T-T-T-F-F	 F-F-T-T-T 
+		[ 6, 7, 1, 4, 5 ], # T-T-F-F-F	 T-T-T-T-T 
+		[ 5, 1, 1, 2, 4 ] ] # T-F-F-F-F	 T-T-T-T-T 
+print(commonWaterFlow(mat))
+
